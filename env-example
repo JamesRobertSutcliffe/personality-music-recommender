@@ -1,0 +1,6 @@
+# Rename this file to .env and chang the values accordingly [refer to docs/120823-neon-tech-db-info.md]
+DB_USER=sally
+DB_HOST=ep-morning-dawn-18951933
+DB_NAME=neondb
+DB_PASSWORD=PZRStJ9bmF5A
+DB_PORT=5432 # default port number for PostgreSQL databases
