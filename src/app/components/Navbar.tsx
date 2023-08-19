@@ -1,3 +1,4 @@
+import BlueBtn from "./Buttons/BlueBtn";
 function Navbar() {
     return (
         <>
@@ -7,7 +8,7 @@ function Navbar() {
                 </div>
                 <div className="flex space-x-8">
                     <h4 className="text-agrey text-xl inline m-4 p-2"><a href="about">About</a></h4>
-                    <button className="rounded-none bg-ablue m-auto p-3 font-medium text-xl text-awhite justify-center inlinem-2 p-2">Sign In</button>
+                    <BlueBtn text="Sign In" />
                 </div>
             </nav>
 
