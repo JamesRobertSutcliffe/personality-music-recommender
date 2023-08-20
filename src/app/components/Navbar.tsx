@@ -1,4 +1,5 @@
-import BlueBtn from "./Buttons/BlueBtn";
+import Btn from "./Btn";
+
 function Navbar() {
     return (
         <>
@@ -8,7 +9,7 @@ function Navbar() {
                 </div>
                 <div className="flex space-x-8">
                     <h4 className="text-agrey text-xl inline m-4 p-2"><a href="about">About</a></h4>
-                    <BlueBtn text="Sign In" />
+                    {/* <Btn colour="ablue">Sign In</Btn> */}
                 </div>
             </nav>
 
