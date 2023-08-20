@@ -1,7 +1,9 @@
-function Subheading({ subheading }: { subheading: string }) {
+import { ReactNode } from "react"
+
+function Subheading({ children }: { children: ReactNode }) {
     return (
         <>
-            <h2 className="font-medium text-5xl m-2 p-2 text-center text-awhite">{subheading}</h2>
+            <h2 className="font-medium text-5xl m-2 p-2 text-center text-awhite">{children}</h2>
         </>
     )
 }
