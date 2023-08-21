@@ -9,7 +9,7 @@ function Navbar() {
                 </div>
                 <div className="flex space-x-8">
                     <h4 className="text-agrey text-xl inline m-4 p-2"><a href="about">About</a></h4>
-                    {/* <Btn colour="ablue">Sign In</Btn> */}
+                    <Btn className="bg-ablue" onClick={() => console.log("Hello World")}>Sign In</Btn>
                 </div>
             </nav>
 
