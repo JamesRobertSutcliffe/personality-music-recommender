@@ -1,9 +1,10 @@
 import { ReactNode } from "react"
 
-function Heading({ children }: { children: ReactNode }) {
+
+function Heading({ children, className }: { children: ReactNode, className?: string }) {
     return (
 
-        <div className="font-semibold text-7xl m-2 p-2 text-center text-awhite">{children}</div>
+        <h1 className={`font-semibold text-7xl m-2 p-2 text-center text-awhite ${className}`}>{children}</h1>
     )
 }
 
