@@ -1,8 +1,10 @@
+"use client"
 import Navbar from "../components/Navbar"
 import Heading from "../components/Heading"
 import Subheading from "../components/Subheading"
 import Paragraph from "../components/Paragraph"
 import Btn from "../components/Btn"
+import AnchorBtn from "../components/AnchorBtn"
 
 export default function TailwindTemplates() {
 
@@ -16,6 +18,7 @@ export default function TailwindTemplates() {
                 Here is a Subheading test with a <a style={{ color: "yellow" }} href="./">Link</a>
             </Subheading>
             <Paragraph>
+                <h1 className="black">Test</h1>
                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Id dolorum debitis reprehenderit iste consectetur! Aut,
                 optio sit. Rerum quis explicabo et provident officiis autem amet neque repellendus? Earum, laborum sunt. Lorem ipsum
                 dolor sit amet consectetur adipisicing elit. Tempora odit necessitatibus at pariatur hic sed repudiandae, itaque,
@@ -24,13 +27,14 @@ export default function TailwindTemplates() {
                 nesciunt unde porro sequi nihil eaque qui quae delectus omnis esse inventore fugit?
             </Paragraph>
             <div className="flex m-5">
-                <Btn colour="ared">
+                <Btn className="bg-ared" onClick={() => console.log("hello")}>
                     Call to action red
                 </Btn>
-                <Btn colour="adarkgrey">
+                <AnchorBtn link={"./"} className="bg-ared"> Call to action red</AnchorBtn>
+                <Btn className="bg-adarkgrey" onClick={() => console.log("hello")}>
                     Call to action grey
                 </Btn>
-                <Btn colour="ablue">
+                <Btn className="bg-ablue" onClick={() => console.log("hello")}>
                     <img src="https://53.fs1.hubspotusercontent-na1.net/hub/53/hubfs/image8-2.jpg?width=595&height=400&name=image8-2.jpg" alt="Google Logo" style={{ maxHeight: "15px", display: "inline" }} /> Sign In
                 </Btn>
             </div>
