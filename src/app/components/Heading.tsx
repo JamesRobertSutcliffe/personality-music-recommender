@@ -4,7 +4,7 @@ import { ReactNode } from "react"
 function Heading({ children, className }: { children: ReactNode, className?: string }) {
     return (
 
-        <h1 className={`font-semibold text-7xl m-2 p-2 text-center text-awhite ${className}`}>{children}</h1>
+        <h1 className={`w-3/5 font-semibold text-6xl m-auto p-2 text-center ${className}`}>{children}</h1>
     )
 }
 
