@@ -1,15 +1,19 @@
-import Btn from "./Btn";
+import Link from "next/link";
+
 
 function Navbar() {
     return (
         <>
             <nav className="flex w-4/6 m-auto justify-between">
                 <div>
-                    <a href="./"><h1 className="text-2xl font-semibold text-awhite m-2 p-2 font-large">MPR</h1></a>
+                    <Link href="./"><h1 className="text-2xl font-semibold text-agrey m-2 p-2 font-large">LOGO</h1></Link>
                 </div>
                 <div className="flex space-x-8">
-                    <h4 className="text-agrey text-xl inline m-4 p-2"><a href="about">About</a></h4>
-                    <Btn className="bg-ablue" onClick={() => console.log("Hello World")}>Sign In</Btn>
+                    <ul className="flex flex-wrap items-center mt-3 text-lg font-medium text-agrey dark:text-arey sm:mt-0">
+                        <li>
+                            <Link href="./" className="mr-4 hover:underline md:mr-6 ">Discover New Music</Link>
+                        </li>
+                    </ul>
                 </div>
             </nav>
 
