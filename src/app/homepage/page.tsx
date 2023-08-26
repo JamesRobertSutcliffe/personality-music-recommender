@@ -30,7 +30,7 @@ export default function Homepage() {
                 dolor sit amet consectetur adipisicing elit.
             </Paragraph>
             <div className="flex m-5">
-                <AnchorBtn link={"./"} className="bg-ablue">Take the Test!</AnchorBtn>
+                <AnchorBtn link={"login"} className="bg-ablue">Take the Test!</AnchorBtn>
             </div>
         </div>
     )

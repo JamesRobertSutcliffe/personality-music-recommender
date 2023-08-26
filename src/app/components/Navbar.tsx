@@ -11,7 +11,7 @@ function Navbar() {
                 <div className="flex space-x-8">
                     <ul className="flex flex-wrap items-center mt-3 text-lg font-medium text-agrey dark:text-arey sm:mt-0">
                         <li>
-                            <Link href="./" className="mr-4 hover:underline md:mr-6 ">Discover New Music</Link>
+                            <Link href="login" className="mr-4 hover:underline md:mr-6 ">Discover New Music</Link>
                         </li>
                     </ul>
                 </div>
