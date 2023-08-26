@@ -9,7 +9,9 @@ interface BtnProps {
 function Btn({ children, className, onClick }: BtnProps) {
     return (
         <>
-            <button className={`rounded-none m-auto p-3 font-medium text-lg text-awhite justify-center ${className}`} onClick={onClick} >{children}</button>
+            <div className="flex m-2 p-2">
+                <button className={`rounded-none m-auto p-3 font-medium text-lg text-awhite justify-center ${className}`} onClick={onClick} >{children}</button>
+            </div>
         </>
     )
 }
