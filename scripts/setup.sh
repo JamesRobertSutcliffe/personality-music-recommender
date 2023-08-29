@@ -9,3 +9,5 @@ echo "DB_HOST=127.0.0.1" >>.env
 echo "DB_NAME=testdb" >>.env
 echo "DB_PASSWORD=qwerty" >>.env
 echo "DB_PORT=5432" >>.env
+
+echo ".env file created successfully"
