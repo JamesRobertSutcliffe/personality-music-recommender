@@ -1,4 +1,12 @@
-const { query } = require('../../src/db/db');
+import { query, pool } from '../../src/db/db';
+
+describe('Database Connection', () => {
+  it('should establish a connection to the database', async () => {
+    const client = await pool.connect();
+    const isConnected = client.release() === undefined;
+    expect(isConnected).toEqual(true);
+  });
+});
 
 describe('query()', () => {
   it('should execute a SQL query', async () => {
