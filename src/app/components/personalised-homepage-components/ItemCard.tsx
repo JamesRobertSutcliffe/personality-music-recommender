@@ -2,7 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { ReactNode } from "react"
 
-function PHitemCard({ children, title, img }: { children: ReactNode, title: String, img: string }) {
+function ItemCard({ children, title, img }: { children: ReactNode, title: String, img: string }) {
     return (
         <Link className="hover:bg-gray-700 delay-50 duration-100 bg-ablack p-5 rounded-lg min-w-[10vw] group p-2 m-2" href="">
             <img src={img}
@@ -15,4 +15,4 @@ function PHitemCard({ children, title, img }: { children: ReactNode, title: Stri
     )
 }
 
-export default PHitemCard;
+export default ItemCard;

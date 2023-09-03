@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
 
-function PHaside({ children, personalityType }: { children?: ReactNode, personalityType: String }) {
+function Aside({ children, personalityType }: { children?: ReactNode, personalityType: String }) {
     return (
         <>
             <div className={`bg-adarkgrey col-span-1 row-span-4 m-1 p-1`}>
@@ -21,4 +21,4 @@ function PHaside({ children, personalityType }: { children?: ReactNode, personal
     )
 }
 
-export default PHaside;
+export default Aside;
