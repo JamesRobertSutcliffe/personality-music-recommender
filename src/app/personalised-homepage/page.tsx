@@ -1,31 +1,31 @@
 'use client'
-import PHaside from "../components/personalised-homepage-components/PHaside";
-import PHitemCard from "../components/personalised-homepage-components/PHitemCard";
-import PHitemContainer from "../components/personalised-homepage-components/PHitemContainer";
-import PHitemRow from "../components/personalised-homepage-components/PHitemRow";
-import PHitemRowContainer from "../components/personalised-homepage-components/PHitemRowContainer";
-import PHbg from "../components/personalised-homepage-components/PHbg";
+import Aside from "../components/personalised-homepage-components/Aside";
+import ItemCard from "../components/personalised-homepage-components/ItemCard";
+import ItemContainer from "../components/personalised-homepage-components/ItemContainer";
+import ItemRow from "../components/personalised-homepage-components/ItemRow";
+import ItemRowContainer from "../components/personalised-homepage-components/ItemRowContainer";
+import Bg from "../components/personalised-homepage-components/Bg";
 import TestCards from "../components/personalised-homepage-components/TEST_CARDS/TestCards";
 
 function PersonalisedHomepage() {
     return (
-        <PHbg>
-            <PHaside personalityType="Personality Type">
-            </PHaside>
-            <PHitemContainer>
-                <PHitemRowContainer>
-                    <PHitemRow title="Recommended Songs">
+        <Bg>
+            <Aside personalityType="Personality Type">
+            </Aside>
+            <ItemContainer>
+                <ItemRowContainer>
+                    <ItemRow title="Recommended Songs">
                         <TestCards />
-                    </PHitemRow>
-                    <PHitemRow title="Recommended Albums">
+                    </ItemRow>
+                    <ItemRow title="Recommended Albums">
                         <TestCards />
-                    </PHitemRow>
-                    <PHitemRow title="Recommended Playlists">
+                    </ItemRow>
+                    <ItemRow title="Recommended Playlists">
                         <TestCards />
-                    </PHitemRow>
-                </PHitemRowContainer>
-            </PHitemContainer>
-        </PHbg>
+                    </ItemRow>
+                </ItemRowContainer>
+            </ItemContainer>
+        </Bg>
     )
 }
 
