@@ -9,7 +9,6 @@ CREATE TABLE IF NOT EXISTS users (
   username VARCHAR(255),
   password VARCHAR(255),
   personality_type_id INT REFERENCES personality_types(id),
-  other_info TEXT
 );
 
 CREATE TABLE IF NOT EXISTS favorites (
