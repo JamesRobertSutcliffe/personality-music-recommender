@@ -8,7 +8,7 @@ CREATE TABLE IF NOT EXISTS users (
   id SERIAL PRIMARY KEY,
   username VARCHAR(255),
   password VARCHAR(255),
-  personality_type_id INT REFERENCES personality_types(id),
+  personality_type_id INT NULL REFERENCES personality_types(id)
 );
 
 CREATE TABLE IF NOT EXISTS favorites (
