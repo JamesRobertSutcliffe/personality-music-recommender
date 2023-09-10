@@ -1,5 +1,3 @@
-import { ReactNode } from "react";
-
 function Aside({ username, personalityType, profileImage }: { username: String, personalityType?: string, profileImage?: string }) {
     return (
         <>
