@@ -49,18 +49,18 @@ function PersonalisedHomepage() {
             <ItemContainer>
                 <ItemRowContainer>
                     <ItemRow title="Recommended Songs">
-                        {tracks?.map((track) => {
-                            return <ItemCard title={track.name} img={track.album.images[1].url}>{track.artists[0].name}</ItemCard>
+                        {tracks?.map((track, index) => {
+                            return <ItemCard key={`song${index}`} title={track.name} img={track.album.images[1].url}>{track.artists[0].name}</ItemCard>
                         })}
                     </ItemRow>
                     <ItemRow title="Recommended Albums">
-                        {albums?.map((album) => {
-                            return <ItemCard title={album.name} img={album.images[1].url}>{album.artists[0].name}</ItemCard>
+                        {albums?.map((album, index) => {
+                            return <ItemCard key={`album${index}`} title={album.name} img={album.images[1].url}>{album.artists[0].name}</ItemCard>
                         })}
                     </ItemRow>
                     <ItemRow title="Recommended Playlists">
-                        {playlists?.map((playlist) => {
-                            return <ItemCard title={playlist.name} img={playlist.images[0].url}>{playlist.description}</ItemCard>
+                        {playlists?.map((playlist, index) => {
+                            return <ItemCard key={`playlist${index}`} title={playlist.name} img={playlist.images[0].url}>{playlist.description}</ItemCard>
                         })}
                     </ItemRow>
                 </ItemRowContainer>
