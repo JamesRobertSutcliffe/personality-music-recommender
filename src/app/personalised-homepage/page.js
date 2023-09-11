@@ -9,8 +9,11 @@ import { useEffect, useState } from "react";
 import { fetchArtistAlbum, fetchProfile, fetchUserPlaylists, fetchUserTracks } from "../hooks/spotify/spotify_hooks";
 
 function PersonalisedHomepage() {
+    let accessToken = "";
 
-    const accessToken = window.location.hash.split("&")[0].split("=")[1];
+    if (typeof window !== "undefined") {
+        accessToken = window.location.hash.split("&")[0].split("=")[1];
+    }
 
     const [profileName, setProfileName] = useState("");
     const [userImage, setUserImage] = useState("");
@@ -21,16 +24,16 @@ function PersonalisedHomepage() {
     useEffect(() => {
         fetchProfile(accessToken).then((res) => setUserEmail(res.email));
         fetchProfile(accessToken).then((res) => setProfileName(res.display_name));
-        fetchProfile(accessToken).then((res) => setUserImage(res.images[1].url));
+        fetchProfile(accessToken).then((res) => setUserImage(res.images?.[1]?.url));
         fetchArtistAlbum(accessToken).then((res) => setAlbums(res.items));
         fetchUserTracks(accessToken).then((res) => setTracks(res.items));
-        fetchUserPlaylists(accessToken).then((res) => setPlaylists(res.playlists.items));
+        fetchUserPlaylists(accessToken).then((res) => setPlaylists(res.playlists?.items));
     }, []);
 
     // Useful data for ML / backend //
 
     // User top tracks is an array of users top played track IDs
-    const userTopTracks = tracks.map((track) => {
+    const userTopTracks = tracks?.map((track) => {
         return track.id
     })
 
@@ -46,17 +49,17 @@ function PersonalisedHomepage() {
             <ItemContainer>
                 <ItemRowContainer>
                     <ItemRow title="Recommended Songs">
-                        {tracks.map((track) => {
+                        {tracks?.map((track) => {
                             return <ItemCard title={track.name} img={track.album.images[1].url}>{track.artists[0].name}</ItemCard>
                         })}
                     </ItemRow>
                     <ItemRow title="Recommended Albums">
-                        {albums.map((album) => {
+                        {albums?.map((album) => {
                             return <ItemCard title={album.name} img={album.images[1].url}>{album.artists[0].name}</ItemCard>
                         })}
                     </ItemRow>
                     <ItemRow title="Recommended Playlists">
-                        {playlists.map((playlist) => {
+                        {playlists?.map((playlist) => {
                             return <ItemCard title={playlist.name} img={playlist.images[0].url}>{playlist.description}</ItemCard>
                         })}
                     </ItemRow>
