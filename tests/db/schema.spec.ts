@@ -1,4 +1,4 @@
-import { query } from '../../src/db/db';
+import { query } from "../../src/db/db";
 
 async function tableExists(tableName: string) {
   const queryResult = await query(`
@@ -14,13 +14,17 @@ async function tableExists(tableName: string) {
   return existsValue;
 }
 
-const tableNames: string[] = ['personality_types', 'users', 'favorites', 'recommendations'];
-describe('Table creation', () => {
-  tableNames.forEach(tableName => {
+const tableNames: string[] = [
+  "personality_types",
+  "users",
+  "liked_songs",
+  "recommendations",
+];
+describe("Table creation", () => {
+  tableNames.forEach((tableName) => {
     it(`should create the ${tableName} table`, async () => {
       const tableExistsValue = await tableExists(tableName);
       expect(tableExistsValue).toEqual(true);
     });
   });
 });
-

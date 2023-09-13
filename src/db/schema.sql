@@ -11,7 +11,7 @@ CREATE TABLE IF NOT EXISTS users (
   personality_type VARCHAR(255) NULL
 );
 
-CREATE TABLE IF NOT EXISTS favorites (
+CREATE TABLE IF NOT EXISTS liked_songs(
   user_id INT REFERENCES users(id),
   song_id INT,
   PRIMARY KEY (user_id, song_id)
