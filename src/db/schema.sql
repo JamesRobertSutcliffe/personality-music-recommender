@@ -6,10 +6,9 @@ CREATE TABLE IF NOT EXISTS personality_types (
 
 CREATE TABLE IF NOT EXISTS users (
   id SERIAL PRIMARY KEY,
-  username VARCHAR(255),
-  password VARCHAR(255),
-  personality_type_id INT REFERENCES personality_types(id),
-  other_info TEXT
+  sid VARCHAR(255),
+  email VARCHAR(255),
+  personality_type VARCHAR(255) NULL
 );
 
 CREATE TABLE IF NOT EXISTS favorites (
