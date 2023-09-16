@@ -6,40 +6,44 @@ import ItemRow from "../components/personalised-homepage-components/ItemRow";
 import ItemRowContainer from "../components/personalised-homepage-components/ItemRowContainer";
 import Bg from "../components/personalised-homepage-components/Bg";
 import { useEffect, useState } from "react";
-import { fetchArtistAlbum, fetchProfile, fetchUserPlaylists, fetchUserTracks } from "../hooks/spotify/spotify_hooks";
+import { fetchArtistAlbum, fetchProfile, fetchUserPlaylists, fetchUserTracks, fetchArtistTrack } from "../hooks/spotify/spotify_hooks";
 
 function PersonalisedHomepage() {
-    let accessToken = "";
 
+    // Access token obtained from URL window
+    let accessToken = "";
     if (typeof window !== "undefined") {
         accessToken = window.location.hash.split("&")[0].split("=")[1];
     }
 
+    // Variables containing data pulled from API
     const [profileName, setProfileName] = useState("");
     const [userImage, setUserImage] = useState("");
     const [albums, setAlbums] = useState([]);
     const [tracks, setTracks] = useState([]);
     const [playlists, setPlaylists] = useState([]);
 
+    // Pulls in placeholder data from a couple of areas of Spotify API
     useEffect(() => {
-        fetchProfile(accessToken).then((res) => setUserEmail(res.email));
-        fetchProfile(accessToken).then((res) => setProfileName(res.display_name));
-        fetchProfile(accessToken).then((res) => setUserImage(res.images?.[1]?.url));
+        fetchProfile(accessToken).then((res) => {
+            setProfileName(res.display_name);
+            setUserEmail(res.email);
+            setUserImage(res.images?.[1]?.url);
+        });
         fetchArtistAlbum(accessToken).then((res) => setAlbums(res.items));
-        fetchUserTracks(accessToken).then((res) => setTracks(res.items));
+        fetchArtistTrack(accessToken).then((res) => setTracks(res.tracks));
         fetchUserPlaylists(accessToken).then((res) => setPlaylists(res.playlists?.items));
     }, []);
 
-    // Useful data for ML / backend //
+    console.log(tracks)
 
+    // Useful data for ML / backend //
     // User top tracks is an array of users top played track IDs
     const userTopTracks = tracks?.map((track) => {
         return track.id
     })
-
     // User Email - could be used as a unique identifier to store in DB and match to personality type
     const [userEmail, setUserEmail] = useState("");
-
     console.log(userEmail)
 
     return (
