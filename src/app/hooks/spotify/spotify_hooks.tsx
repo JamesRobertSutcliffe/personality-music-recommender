@@ -12,6 +12,13 @@ export async function fetchArtistAlbum(token: string) {
     return await result.json();
 }
 
+export async function fetchArtistTrack(token: string) {
+    const result = await fetch("https://api.spotify.com/v1/artists/4ePunOqQbOYoQwd1298g3Z/top-tracks?country=es", {
+        method: "GET", headers: { Authorization: `Bearer ${token}` }
+    });
+    return await result.json();
+}
+
 export async function fetchUserTracks(token: string) {
     const result = await fetch("https://api.spotify.com/v1/me/top/tracks", {
         method: "GET", headers: { Authorization: `Bearer ${token}` }
