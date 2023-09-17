@@ -7,7 +7,7 @@ import SpotifyLogo from "../../../public/images/spotify_logo.png"
 import SpotifyLogo2 from "../../../public/images/Spotify_Logo_2.png"
 import Link from "next/link";
 
-const AUTH_URL = "https://accounts.spotify.com/en/authorize?response_type=token&client_id=a96eef12a4ff426fa590bc684129730c&scope=ugc-image-upload%20playlist-modify-private%20playlist-modify-public%20streaming%20user-read-email%20user-top-read&redirect_uri=http://localhost:3000/personalised-homepage"
+const AUTH_URL = "https://accounts.spotify.com/en/authorize?response_type=token&client_id=a96eef12a4ff426fa590bc684129730c&scope=ugc-image-upload%20playlist-modify-private%20playlist-modify-public%20streaming%20user-read-email%20user-top-read%20user-read-playback-state%20user-modify-playback-state%20user-read-currently-playing%20app-remote-control%20user-read-playback-position%20user-read-private&redirect_uri=http://localhost:3000/personalised-homepage"
 
 function Login() {
     return (
