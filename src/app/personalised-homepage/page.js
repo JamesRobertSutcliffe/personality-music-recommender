@@ -24,6 +24,7 @@ function PersonalisedHomepage() {
     const [tracks, setTracks] = useState([]);
     const [playlists, setPlaylists] = useState([]);
     const [userTopArray, setUserTopArray] = useState([]);
+    const [userProduct, setUserProduct] = useState();
 
     // Variables / state used to control playback
     const [playTrack, setPlayTrack] = useState("");
@@ -36,6 +37,7 @@ function PersonalisedHomepage() {
             setProfileName(res.display_name);
             setUserEmail(res.email);
             setUserImage(res.images?.[1]?.url);
+            setUserProduct(res.product);
         });
         fetchUserTracks(accessToken).then((res) => setUserTopArray(res.items))
         fetchArtistAlbum(accessToken).then((res) => setAlbums(res.items));
@@ -75,6 +77,12 @@ function PersonalisedHomepage() {
         setPlayback(true);
     }
 
+
+    // userPremium function checks whether user product is premium
+    const userPremium = () => {
+        return userProduct === "premium"
+    }
+
     return (
         <Bg>
             <Aside username={profileName} personalityType="Architect" profileImage={userImage}>
@@ -99,11 +107,11 @@ function PersonalisedHomepage() {
                 </ItemRowContainer>
             </ItemContainer>
             <div className="min-w-[100vw]">
-                <SpotifyPlayer
+                {userPremium() ? <SpotifyPlayer
                     token={accessToken}
                     uris={[`spotify:${playerType}:${playTrack}`]}
                     play={playback}>
-                </SpotifyPlayer>
+                </SpotifyPlayer> : null}
             </div>
         </Bg>
 
