@@ -83,10 +83,15 @@ function PersonalisedHomepage() {
         return userProduct === "premium"
     }
 
+    // UserProfilePic function checks whether user 
+
+    const UserProfilePic = () => {
+        return userImage !== null
+    }
+
     return (
         <Bg>
-            <Aside username={profileName} personalityType="Architect" profileImage={userImage}>
-            </Aside>
+            <Aside username={profileName} personalityType="Architect" profileImage={UserProfilePic() ? userImage : "https://i.ibb.co/WHfbS7L/logo.png"}></Aside>
             <ItemContainer>
                 <ItemRowContainer>
                     <ItemRow title="Recommended Songs">
@@ -107,11 +112,11 @@ function PersonalisedHomepage() {
                 </ItemRowContainer>
             </ItemContainer>
             <div className="min-w-[100vw]">
-                {userPremium() ? <SpotifyPlayer
+                {userPremium() && (<SpotifyPlayer
                     token={accessToken}
                     uris={[`spotify:${playerType}:${playTrack}`]}
                     play={playback}>
-                </SpotifyPlayer> : null}
+                </SpotifyPlayer>)}
             </div>
         </Bg>
 
