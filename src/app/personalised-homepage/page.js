@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 import { fetchArtistAlbum, fetchProfile, fetchUserPlaylists, fetchUserTracks, fetchArtistTrack } from "../hooks/spotify/spotify_hooks";
 import SpotifyPlayer from 'react-spotify-web-playback';
 import ItemCard from "../components/personalised-homepage-components/ItemCard";
+import Loading from "../components/personalised-homepage-components/Loading";
 
 function PersonalisedHomepage() {
 
@@ -25,6 +26,7 @@ function PersonalisedHomepage() {
     const [playlists, setPlaylists] = useState([]);
     const [userTopArray, setUserTopArray] = useState([]);
     const [userProduct, setUserProduct] = useState();
+    const [profileLoad, setProfileLoad] = useState(false);
 
     // Variables / state used to control playback
     const [playTrack, setPlayTrack] = useState("");
@@ -38,6 +40,7 @@ function PersonalisedHomepage() {
             setUserEmail(res.email);
             setUserImage(res.images?.[1]?.url);
             setUserProduct(res.product);
+            setProfileLoad(true);
         });
         fetchUserTracks(accessToken).then((res) => setUserTopArray(res.items))
         fetchArtistAlbum(accessToken).then((res) => setAlbums(res.items));
@@ -51,11 +54,8 @@ function PersonalisedHomepage() {
         return track.id
     })
 
-    console.log(userTopTracks);
     // User Email - could be used as a unique identifier to store in DB and match to personality type
     const [userEmail, setUserEmail] = useState("");
-    console.log(userEmail)
-
 
     // Below functions play tracks / albums / playlists on click
 
@@ -85,14 +85,13 @@ function PersonalisedHomepage() {
 
     // UserProfilePic function checks whether user 
 
-    const UserProfilePic = () => {
-        return userImage !== null
-    }
+    const setProfilePic = userImage === undefined ? "https://i.ibb.co/WHfbS7L/logo.png" : userImage;
 
     return (
+
         <Bg>
-            <Aside username={profileName} personalityType="Architect" profileImage={UserProfilePic() ? userImage : "https://i.ibb.co/WHfbS7L/logo.png"}></Aside>
-            <ItemContainer>
+            {profileLoad === true ? <Aside username={profileName} personalityType="Architect" profileImage={setProfilePic}></Aside> : null}
+            {profileLoad === true ? <ItemContainer>
                 <ItemRowContainer>
                     <ItemRow title="Recommended Songs">
                         {tracks?.map((track, index) => {
@@ -110,7 +109,7 @@ function PersonalisedHomepage() {
                         })}
                     </ItemRow>
                 </ItemRowContainer>
-            </ItemContainer>
+            </ItemContainer> : <Loading />}
             <div className="min-w-[100vw]">
                 {userPremium() && (<SpotifyPlayer
                     token={accessToken}
