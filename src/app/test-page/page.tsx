@@ -12,7 +12,7 @@ import {
   DropdownItem,
   Button,
 } from "@nextui-org/react";
-import { useContext } from "react";
+import { useState, useContext } from "react";
 import { EmailContext } from "../context/EmailContext";
 
 const personalityTypes = [
@@ -36,6 +36,8 @@ const personalityTypes = [
 
 function Testpage() {
   const { userEmail } = useContext(EmailContext);
+  const [selectedType, setSelectedType] = useState({code: "", label: ""});
+  const router = useRouter();
 
   return (
     <>
@@ -73,17 +75,26 @@ function Testpage() {
         <Dropdown>
           <DropdownTrigger>
             <Button variant="bordered" className="text-awhite m-auto text-xl">
-              Select Personality Type
+              {selectedType.label || "Select Personality Type"}
             </Button>
           </DropdownTrigger>
           <DropdownMenu aria-name="Static Actions">
             {personalityTypes.map(({ code, name }) => (
-              <DropdownItem key={code} className="text-agrey">
+              <DropdownItem
+                key={code}
+                className="text-agrey"
+                onClick={() => setSelectedType({code, label:`${code} - ${name}`})}
+              >
                 {`${code} - ${name}`}
               </DropdownItem>
             ))}
           </DropdownMenu>
         </Dropdown>
+        {selectedType.code && (
+          <Button className="bg-ablue text-awhite text-xl m-auto mt-6" onClick={handleSave}>
+            Save
+          </Button>
+        )}
       </div>
     </>
   );
