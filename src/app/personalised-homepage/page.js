@@ -9,6 +9,7 @@ import { fetchArtistAlbum, fetchProfile, fetchUserPlaylists, fetchUserTracks, fe
 import SpotifyPlayer from 'react-spotify-web-playback';
 import ItemCard from "../components/personalised-homepage-components/ItemCard";
 import Loading from "../components/personalised-homepage-components/Loading";
+import {redirect} from "next/navigation";
 
 function PersonalisedHomepage() {
 
@@ -26,7 +27,9 @@ function PersonalisedHomepage() {
     const [playlists, setPlaylists] = useState([]);
     const [userTopArray, setUserTopArray] = useState([]);
     const [userProduct, setUserProduct] = useState();
+    const [dbUser, setDbUser] = useState();
     const [profileLoad, setProfileLoad] = useState(false);
+    const [userEmail, setUserEmail] = useState("");
 
     // Variables / state used to control playback
     const [playTrack, setPlayTrack] = useState("");
@@ -35,30 +38,35 @@ function PersonalisedHomepage() {
 
     // Pulls in placeholder data from a couple of areas of Spotify API
     useEffect(() => {
-        fetchProfile(accessToken).then((res) => {
-            setProfileName(res.display_name);
-            setUserEmail(res.email);
-            setUserImage(res.images?.[1]?.url);
-            setUserProduct(res.product);
+        const fetchProfileData = async (accessToken) => {
+        const profile = await fetchProfile(accessToken);
+            setProfileName(profile.display_name);
+            setUserEmail(profile.email);
+            setUserImage(profile.images?.[1]?.url);
+            setUserProduct(profile.product);
+
+            const dbUser = await fetch(`/api/user?email=${profile.email}`).then(res => res.json());
+            console.log(dbUser);
+            setDbUser(dbUser);
+
             setProfileLoad(true);
-        });
+        };
+
+        fetchProfileData(accessToken);
         fetchUserTracks(accessToken).then((res) => setUserTopArray(res.items))
         fetchArtistAlbum(accessToken).then((res) => setAlbums(res.items));
         fetchArtistTrack(accessToken).then((res) => setTracks(res.tracks));
         fetchUserPlaylists(accessToken).then((res) => setPlaylists(res.playlists?.items));
-    }, []);
+    }, [accessToken]);
+
+    if(dbUser && Object.keys(dbUser).length === 0) return redirect('/test-page')
+    // Below functions play tracks / albums / playlists on click
 
     // Useful data for ML / backend //
     // User top tracks is an array of users top played track IDs
     const userTopTracks = userTopArray?.map((track) => {
         return track.id
     })
-
-    // User Email - could be used as a unique identifier to store in DB and match to personality type
-    const [userEmail, setUserEmail] = useState("");
-
-    // Below functions play tracks / albums / playlists on click
-
     function setTrackId(e) {
         setPlayTrack(e.currentTarget.id);
         setPlayerType("track");
