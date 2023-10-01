@@ -1,11 +1,11 @@
-'use client'
-
-import { NextUIProvider } from '@nextui-org/react'
+"use client";
+import { NextUIProvider } from "@nextui-org/react";
+import { EmailProvider } from "./context/EmailContext";
 
 export function Providers({ children }: { children: React.ReactNode }) {
-    return (
-        <NextUIProvider>
-            {children}
-        </NextUIProvider>
-    )
+  return (
+    <EmailProvider>
+      <NextUIProvider>{children}</NextUIProvider>
+    </EmailProvider>
+  );
 }

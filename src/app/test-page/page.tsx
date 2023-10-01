@@ -6,8 +6,11 @@ import sixteen from "../../../public/images/16personalities.png"
 import Link from "next/link";
 import Paragraph from "../components/Paragraph";
 import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Button } from "@nextui-org/react";
+import { useContext } from "react";
+import { EmailContext } from "../context/EmailContext";
 
 function Testpage() {
+  const { userEmail } = useContext(EmailContext);
     return (
         <>
             <Heading>

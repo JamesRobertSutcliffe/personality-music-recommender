@@ -4,7 +4,7 @@ import ItemContainer from "../components/personalised-homepage-components/ItemCo
 import ItemRow from "../components/personalised-homepage-components/ItemRow";
 import ItemRowContainer from "../components/personalised-homepage-components/ItemRowContainer";
 import Bg from "../components/personalised-homepage-components/Bg";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import {
   fetchArtistAlbum,
   fetchProfile,
@@ -16,6 +16,7 @@ import SpotifyPlayer from "react-spotify-web-playback";
 import ItemCard from "../components/personalised-homepage-components/ItemCard";
 import Loading from "../components/personalised-homepage-components/Loading";
 import { redirect } from "next/navigation";
+import { EmailContext } from "../context/EmailContext";
 
 function PersonalisedHomepage() {
   // Access token obtained from URL window
@@ -34,7 +35,7 @@ function PersonalisedHomepage() {
   const [userProduct, setUserProduct] = useState();
   const [dbUser, setDbUser] = useState();
   const [profileLoad, setProfileLoad] = useState(false);
-  const [userEmail, setUserEmail] = useState("");
+  const { userEmail, setUserEmail } = useContext(EmailContext);
 
   // Variables / state used to control playback
   const [playTrack, setPlayTrack] = useState("");
