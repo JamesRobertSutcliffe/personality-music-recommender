@@ -71,7 +71,7 @@ function Testpage() {
           here.
         </Link>
       </Paragraph>
-      <div className="flex m-2 p-2">
+      <div className="flex flex-col m-2 p-2">
         <Dropdown>
           <DropdownTrigger>
             <Button variant="bordered" className="text-awhite m-auto text-xl">
