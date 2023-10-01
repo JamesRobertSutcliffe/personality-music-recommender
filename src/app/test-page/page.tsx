@@ -44,6 +44,24 @@ function Testpage() {
     router.push('https://accounts.spotify.com/en/authorize?response_type=token&client_id=a96eef12a4ff426fa590bc684129730c&scope=ugc-image-upload%20playlist-modify-private%20playlist-modify-public%20streaming%20user-read-email%20user-top-read%20user-read-playback-state%20user-modify-playback-state%20user-read-currently-playing%20app-remote-control%20user-read-playback-position%20user-read-private&redirect_uri=http://localhost:3000/personalised-homepage')
   }
 
+  async function handleSave () {
+    const requestBody = {
+      email: userEmail,
+      personality_type: selectedType.code, 
+    };
+
+    const response = await fetch('/api/user', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(requestBody),
+    });
+
+    const newUser = await response.json();
+    router.push('/personalised-homepage');
+  }
+
   return (
     <>
       <Heading>Take the Test</Heading>
