@@ -15,8 +15,28 @@ import {
 import { useContext } from "react";
 import { EmailContext } from "../context/EmailContext";
 
+const personalityTypes = [
+  { code: "INTJ", name: "Architect" },
+  { code: "INTP", name: "Logician" },
+  { code: "ENTJ", name: "Commander" },
+  { code: "ENTP", name: "Debater" },
+  { code: "INFJ", name: "Advocate" },
+  { code: "INFP", name: "Mediator" },
+  { code: "ENFJ", name: "Protagonist" },
+  { code: "ENFP", name: "Campaigner" },
+  { code: "ISTJ", name: "Logistician" },
+  { code: "ISFJ", name: "Defender" },
+  { code: "ESTJ", name: "Executive" },
+  { code: "ESFJ", name: "Consul" },
+  { code: "ISTP", name: "Virtuoso" },
+  { code: "ISFP", name: "Adventurer" },
+  { code: "ESTP", name: "Entrepreneur" },
+  { code: "ESFP", name: "Entertainer" },
+];
+
 function Testpage() {
   const { userEmail } = useContext(EmailContext);
+
   return (
     <>
       <Heading>Take the Test</Heading>
@@ -56,55 +76,12 @@ function Testpage() {
               Select Personality Type
             </Button>
           </DropdownTrigger>
-          <DropdownMenu aria-label="Static Actions">
-            <DropdownItem key="Architect" className="text-agrey">
-              INTJ - Architect
-            </DropdownItem>
-            <DropdownItem key="Logician" className="text-agrey">
-              INTP - Logician
-            </DropdownItem>
-            <DropdownItem key="Commander" className="text-agrey">
-              ENTJ - Commander
-            </DropdownItem>
-            <DropdownItem key="Debater" className="text-agrey">
-              ENTP - Debater
-            </DropdownItem>
-            <DropdownItem key="Advocate" className="text-agrey">
-              INFJ - Advocate
-            </DropdownItem>
-            <DropdownItem key="Mediator" className="text-agrey">
-              INFP - Mediator
-            </DropdownItem>
-            <DropdownItem key="Protagonist" className="text-agrey">
-              ENFJ - Protagonist
-            </DropdownItem>
-            <DropdownItem key="Campaigner" className="text-agrey">
-              ENFP - Campaigner
-            </DropdownItem>
-            <DropdownItem key="Logistician" className="text-agrey">
-              ISTJ - Logistician
-            </DropdownItem>
-            <DropdownItem key="Defender" className="text-agrey">
-              ISFJ - Defender
-            </DropdownItem>
-            <DropdownItem key="Executive" className="text-agrey">
-              ESTJ - Executive
-            </DropdownItem>
-            <DropdownItem key="Consul" className="text-agrey">
-              ESFJ - Consul
-            </DropdownItem>
-            <DropdownItem key="Virtuoso" className="text-agrey">
-              ISTP - Virtuoso
-            </DropdownItem>
-            <DropdownItem key="Adventurer" className="text-agrey">
-              ISFP - Adventurer
-            </DropdownItem>
-            <DropdownItem key="Entrepreneur" className="text-agrey">
-              ESTP - Entrepreneur
-            </DropdownItem>
-            <DropdownItem key="Entertainer" className="text-agrey">
-              ESFP - Entertainer
-            </DropdownItem>
+          <DropdownMenu aria-name="Static Actions">
+            {personalityTypes.map(({ code, name }) => (
+              <DropdownItem key={code} className="text-agrey">
+                {`${code} - ${name}`}
+              </DropdownItem>
+            ))}
           </DropdownMenu>
         </Dropdown>
       </div>
