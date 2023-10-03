@@ -13,6 +13,7 @@ import {
   Button,
 } from "@nextui-org/react";
 import { useState, useContext } from "react";
+import { useRouter } from 'next/navigation';
 import { EmailContext } from "../context/EmailContext";
 
 const personalityTypes = [
@@ -38,6 +39,10 @@ function Testpage() {
   const { userEmail } = useContext(EmailContext);
   const [selectedType, setSelectedType] = useState({code: "", label: ""});
   const router = useRouter();
+
+  if (typeof window !== "undefined" && !userEmail) {
+    router.push('https://accounts.spotify.com/en/authorize?response_type=token&client_id=a96eef12a4ff426fa590bc684129730c&scope=ugc-image-upload%20playlist-modify-private%20playlist-modify-public%20streaming%20user-read-email%20user-top-read%20user-read-playback-state%20user-modify-playback-state%20user-read-currently-playing%20app-remote-control%20user-read-playback-position%20user-read-private&redirect_uri=http://localhost:3000/personalised-homepage')
+  }
 
   return (
     <>
