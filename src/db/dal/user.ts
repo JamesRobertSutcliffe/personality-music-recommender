@@ -14,14 +14,14 @@ export interface IUser {
  * @param {string} user.email - The email of the user to be created.
  * @returns {Promise<IUser>} The newly created user.
  */
-export async function createUser({ email }: IUser): Promise<IUser> {
+export async function createUser({ email, personality_type }: IUser): Promise<IUser> {
   const insertUserQuery = `
-    INSERT INTO users (email)
-    VALUES (\$1)
+    INSERT INTO users (email, personality_type)
+    VALUES (\$1, \$2)
     RETURNING *
   `;
 
-  return executeSingleResultQuery(insertUserQuery, [email]);
+  return executeSingleResultQuery(insertUserQuery, [email, personality_type]);
 }
 
 /**

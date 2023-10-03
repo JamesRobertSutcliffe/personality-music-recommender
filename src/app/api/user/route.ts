@@ -12,11 +12,11 @@ export async function GET(request: Request): Promise<Response> {
     });
   }
 
-  const dbUser = await getUser(email);
+  const user = await getUser(email);
 
   return new Response(
     JSON.stringify({
-      dbUser,
+      ...user,
     })
   );
 }
