@@ -1,6 +1,6 @@
-import { GET, POST } from "../../../src/app/api/user/route";
-import { createMockUser } from "../../../tests/db/dal/user.spec";
-import { query } from "../../../src/db/db";
+import { GET, POST } from "../../../../src/app/api/user/route";
+import { createMockUser } from "../../../../tests/db/dal/user.spec";
+import { query } from "../../../../src/db/db";
 
 describe("GET Function", () => {
   it("should return 400 if no email is provided", async () => {
