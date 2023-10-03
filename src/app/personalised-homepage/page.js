@@ -51,10 +51,10 @@ function PersonalisedHomepage() {
       setUserImage(profile.images?.[1]?.url);
       setUserProduct(profile.product);
 
-      const dbUser = await fetch(`/api/user?email=${profile.email}`).then(
+      const user = await fetch(`/api/user?email=${profile.email}`).then(
         (res) => res.json()
       );
-      setDbUser(dbUser);
+      setDbUser(user);
 
       setProfileLoad(true);
     };
@@ -109,7 +109,7 @@ function PersonalisedHomepage() {
       {profileLoad === true ? (
         <Aside
           username={profileName}
-          personalityType="Architect"
+          personalityType={dbUser.personality_type}
           profileImage={setProfilePic}
         ></Aside>
       ) : null}
