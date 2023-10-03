@@ -10,7 +10,7 @@ function Aside({ username, personalityType, profileImage }: { username: String, 
                         </div>
                     </div>
                     <div className="row-span-1 bg-ablack p-1 m-2 min-h-[40vh] flex justify-center items-center">
-                        <h1 className="text-xl text-center">Personality Type:{personalityType} (placeholder)</h1>
+                        <h1 className="text-xl text-center">Personality Type: {personalityType}</h1>
                     </div>
                 </div>
             </div>
