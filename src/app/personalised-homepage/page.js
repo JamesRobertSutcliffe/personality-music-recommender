@@ -10,7 +10,7 @@ import {
   fetchProfile,
   fetchUserPlaylists,
   fetchUserTracks,
-  fetchArtistTrack,
+  fetchRecommendedTracks,
 } from "../hooks/spotify/spotify_hooks";
 import SpotifyPlayer from "react-spotify-web-playback";
 import ItemCard from "../components/personalised-homepage-components/ItemCard";
@@ -56,13 +56,13 @@ function PersonalisedHomepage() {
       );
       setDbUser(user);
 
+      await fetchRecommendedTracks(accessToken, user.personality_type).then(setTracks);
       setProfileLoad(true);
     };
 
     fetchProfileData(accessToken);
     fetchUserTracks(accessToken).then((res) => setUserTopArray(res.items));
     fetchArtistAlbum(accessToken).then((res) => setAlbums(res.items));
-    fetchArtistTrack(accessToken).then((res) => setTracks(res.tracks));
     fetchUserPlaylists(accessToken).then((res) =>
       setPlaylists(res.playlists?.items)
     );
@@ -76,6 +76,7 @@ function PersonalisedHomepage() {
   const userTopTracks = userTopArray?.map((track) => {
     return track.id;
   });
+
   function setTrackId(e) {
     setPlayTrack(e.currentTarget.id);
     setPlayerType("track");
