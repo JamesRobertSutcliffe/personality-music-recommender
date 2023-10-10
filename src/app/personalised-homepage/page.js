@@ -6,11 +6,11 @@ import ItemRowContainer from "../components/personalised-homepage-components/Ite
 import Bg from "../components/personalised-homepage-components/Bg";
 import { useEffect, useState, useContext } from "react";
 import {
-  fetchArtistAlbum,
   fetchProfile,
   fetchUserPlaylists,
   fetchUserTracks,
   fetchRecommendedTracks,
+  fetchAlbumData
 } from "../hooks/spotify/spotify_hooks";
 import SpotifyPlayer from "react-spotify-web-playback";
 import ItemCard from "../components/personalised-homepage-components/ItemCard";
@@ -42,7 +42,7 @@ function PersonalisedHomepage() {
   const [playerType, setPlayerType] = useState("");
   const [playback, setPlayback] = useState(false);
 
-  // Pulls in placeholder data from a couple of areas of Spotify API
+  // Fetches profile info and personalised recommended tracks 
   useEffect(() => {
     const fetchProfileData = async (accessToken) => {
       const profile = await fetchProfile(accessToken);
@@ -60,23 +60,31 @@ function PersonalisedHomepage() {
       setProfileLoad(true);
     };
 
+    //Fetches profile data and personal top tracks
+
     fetchProfileData(accessToken);
     fetchUserTracks(accessToken).then((res) => setUserTopArray(res.items));
-    fetchArtistAlbum(accessToken).then((res) => setAlbums(res.items));
     fetchUserPlaylists(accessToken).then((res) =>
       setPlaylists(res.playlists?.items)
     );
   }, [accessToken]);
 
-  if (dbUser && Object.keys(dbUser).length === 0) return redirect("/test-page");
-  // Below functions play tracks / albums / playlists on click
+  // Display reccomended albums pulled from recommended tracks algo
 
-  // Useful data for ML / backend //
-  // User top tracks is an array of users top played track IDs
+  useEffect(() => {
+    fetchAlbumData(accessToken, String(tracks.map((track) => track.album.id).reverse())).then((res) => setAlbums(res.albums))
+  }, [tracks])
+
+  // redirects user to test page if they have if they have not previously logged in
+
+  if (dbUser && Object.keys(dbUser).length === 0) return redirect("/test-page");
+
+  // Useful data for ML / backend -- User top tracks is an array of users top played track IDs
   const userTopTracks = userTopArray?.map((track) => {
     return track.id;
   });
 
+  // Below functions play tracks / albums / playlists on click
   function setTrackId(e) {
     setPlayTrack(e.currentTarget.id);
     setPlayerType("track");
@@ -95,15 +103,17 @@ function PersonalisedHomepage() {
     setPlayback(true);
   }
 
-  // userPremium function checks whether user product is premium
+  // userPremium function checks whether user product is premium deciding whether or not to display player
   const userPremium = () => {
     return userProduct === "premium";
   };
 
-  // UserProfilePic function checks whether user
+  // setProfilePic function checks whether user has spotify profile image / decides whether to display placeholders
 
   const setProfilePic =
     userImage === undefined ? "https://i.ibb.co/WHfbS7L/logo.png" : userImage;
+
+  console.log(tracks, albums)
 
   return (
     <Bg>
