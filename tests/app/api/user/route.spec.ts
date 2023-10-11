@@ -17,7 +17,7 @@ describe("GET Function", () => {
     const result = await GET(request as any);
     const data = JSON.parse(await result.text());
 
-    expect(data.dbUser.email).toBe(mockUser.email);
+    expect(data.email).toBe(mockUser.email);
   });
 });
 
