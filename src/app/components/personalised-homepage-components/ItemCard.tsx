@@ -1,4 +1,6 @@
 'use client'
+import React from 'react';
+import { FaHeart, FaRegHeart } from 'react-icons/fa';
 
 interface ICard {
     children?: any;
@@ -18,6 +20,7 @@ function ItemCard({ children, title, img, trackID, setPlaybackID }: ICard) {
             </img>
             <h3 className="text-gray-200 font-bold mt-5 text-center">{title}</h3>
             <p className="text-gray-400 font-light mt-2 text-xs text-center">{children}</p>
+            <button onClick={() => alert('liked song')}><FaRegHeart data-testid="empty-heart"/></button>
         </div>
     )
 }
