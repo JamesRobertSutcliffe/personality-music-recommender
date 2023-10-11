@@ -7,19 +7,21 @@ import {
 } from "../../../src/db/dal/likedSong";
 
 describe("Liked songs table", () => {
-  let userId: number;
+  let userEmail: string;
 
   beforeEach(async () => {
+    await query("DELETE FROM liked_songs");
     const newUser = await createMockUser();
-    userId = newUser.id as number;
+    userEmail = newUser.email as string;
   });
-
+  afterEach(async () => {
+  })
   describe("addLikedSong()", () => {
     it("adds a new liked song to a user", async () => {
       const previousLikedSongs = await query("SELECT * FROM liked_songs");
 
-      const songId = 1;
-      await addLikedSong(userId, songId);
+      const songId = 'asdf';
+      await addLikedSong(userEmail, songId);
 
       const updatedLikedSongs = await query("SELECT * FROM liked_songs");
 
@@ -29,33 +31,31 @@ describe("Liked songs table", () => {
 
   describe("getLikedSongs()", () => {
     beforeEach(async () => {
-      await addLikedSong(userId, 1);
-      await addLikedSong(userId, 2);
+      await addLikedSong(userEmail, 'asdf');
     });
 
     it("returns the liked songs associated with the user id", async () => {
-      const userLikedSongs = await getLikedSongs(userId);
+      const userLikedSongs = await getLikedSongs(userEmail);
 
-      expect(userLikedSongs.rowCount).toBe(2);
-      expect(userLikedSongs.rows[0]).toMatchObject({ song_id: 1 });
-      expect(userLikedSongs.rows[1]).toMatchObject({ song_id: 2 });
+      expect(userLikedSongs.rowCount).toBe(1);
+      expect(userLikedSongs.rows[0]).toMatchObject({ track_id: 'asdf', user_email: userEmail });
     });
   });
 
   describe("removeLikedSong()", () => {
     beforeEach(async () => {
-      const songId = 2;
-      await addLikedSong(userId, songId);
+      const songId = 'asdf';
+      await addLikedSong(userEmail, songId);
     });
 
     it("removes a liked song", async () => {
-      let likedSongs = await getLikedSongs(userId);
+      let likedSongs = await getLikedSongs(userEmail);
       expect(likedSongs.rowCount).toBe(1);
 
-      const songId = 2;
-      await removeLikedSong(userId, songId);
+      const songId = 'asdf';
+      await removeLikedSong(userEmail, songId);
 
-      likedSongs = await getLikedSongs(userId);
+      likedSongs = await getLikedSongs(userEmail);
       expect(likedSongs.rowCount).toBe(0);
     });
   });

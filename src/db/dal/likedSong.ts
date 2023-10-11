@@ -4,19 +4,19 @@ import { query } from "../db";
 /**
  * Adds a song to a user's liked_songs.
  *
- * @param userId - The user's ID.
- * @param songId - The song's ID.
+ * @param userEmail - The user's email.
+ * @param trackId - The song's ID.
  * @returns The favorite record.
  */
-export async function addLikedSong(userId: number, songId: number) {
+export async function addLikedSong(userEmail: string, trackId: string) {
   const insertLikedSongQuery = `
-    INSERT INTO liked_songs (user_id, song_id)
+    INSERT INTO liked_songs (user_email, track_id)
     VALUES(\$1, \$2)
     RETURNING *`;
 
   const favorite = await executeSingleResultQuery(insertLikedSongQuery, [
-    userId,
-    songId,
+    userEmail,
+    trackId,
   ]);
   return favorite;
 }
@@ -24,36 +24,36 @@ export async function addLikedSong(userId: number, songId: number) {
 /**
  * Retrieves a user's favorite songs.
  *
- * @param userId - The user's ID.
+ * @param userEmail - The user's email.
  * @returns A list of favorite songs.
  */
-export async function getLikedSongs(userId: number) {
+export async function getLikedSongs(userEmail: string) {
   const getUserLikedSongsQuery = `
     SELECT * FROM liked_songs
-    WHERE user_id = \$1
+    WHERE user_email = \$1
   `;
 
-  const userLikedSongs = query(getUserLikedSongsQuery, [userId]);
+  const userLikedSongs = query(getUserLikedSongsQuery, [userEmail]);
   return userLikedSongs;
 }
 
 /**
  * Removes a liked song from a user's liked_songs.
  *
- * @param userId - The user's ID.
- * @param songId - The song's ID to be removed.
+ * @param userEmail - The user's email.
+ * @param trackId - The song's ID to be removed.
  * @returns The removed song's ID.
  */
-export async function removeLikedSong(userId: number, songId: number) {
+export async function removeLikedSong(userEmail: string, trackId: string) {
   const removeLikedSongQuery = `
     DELETE FROM liked_songs
-    WHERE user_id = \$1 AND song_id = \$2
-    RETURNING song_id
+    WHERE user_email = \$1 AND track_id = \$2
+    RETURNING track_id
 `;
 
   const removedSongId = await executeSingleResultQuery(removeLikedSongQuery, [
-    userId,
-    songId,
+    userEmail,
+    trackId,
   ]);
   return removedSongId;
 }

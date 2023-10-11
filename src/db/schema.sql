@@ -12,9 +12,9 @@ CREATE TABLE IF NOT EXISTS users (
 );
 
 CREATE TABLE IF NOT EXISTS liked_songs(
-  user_id INT REFERENCES users(id),
-  song_id INT,
-  PRIMARY KEY (user_id, song_id)
+  user_email VARCHAR(255),
+  track_id VARCHAR(255),
+  PRIMARY KEY (user_email, track_id)
 );
 
 CREATE TABLE IF NOT EXISTS recommendations (
