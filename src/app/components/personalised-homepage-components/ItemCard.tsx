@@ -1,13 +1,13 @@
-'use client'
-import React from 'react';
-import { FaHeart, FaRegHeart } from 'react-icons/fa';
+"use client";
+import React, { useState, useContext, useEffect } from "react";
+import { FaHeart, FaRegHeart } from "react-icons/fa";
 
 interface ICard {
-    children?: any;
-    title: string;
-    img: string;
-    trackID: string;
-    setPlaybackID: (e: React.MouseEvent<HTMLDivElement>) => void;
+  children?: any;
+  title: string;
+  img: string;
+  trackID: string;
+  setPlaybackID: (e: React.MouseEvent<HTMLDivElement>) => void;
 }
 
 function ItemCard({ children, title, img, trackID, setPlaybackID }: ICard) {
