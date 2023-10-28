@@ -2,6 +2,10 @@
 import React, { useState, useContext, useEffect } from "react";
 import { FaHeart, FaRegHeart } from "react-icons/fa";
 import { EmailContext } from "../../context/EmailContext";
+import {
+  fetchLikedSongsForUser,
+  toggleLikedSong,
+} from "../../utils/likedSongsHelpers";
 
 interface ICard {
   children?: any;
@@ -16,30 +20,16 @@ function ItemCard({ children, title, img, trackID, setPlaybackID }: ICard) {
   const { userEmail } = useContext(EmailContext);
 
   useEffect(() => {
-    const addOrDelete = async () => {
-      if (isSongLiked) {
-        await fetch("/api/liked-song", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ user_email: userEmail, track_id: trackID }),
-        });
-      }
-      if (!isSongLiked) {
-        await fetch("/api/liked-song", {
-          method: "DELETE",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ user_email: userEmail, track_id: trackID }),
-        });
-      }
-    };
-    addOrDelete();
-  }, [isSongLiked]);
+    async function checkIfSongIsLiked() {
+      const isLiked = await fetchLikedSongsForUser(userEmail as string, trackID);
+      setIsSongLiked(isLiked);
+    }
 
-  async function likeSong() {
+    checkIfSongIsLiked();
+  }, [userEmail, trackID]);
+
+  async function handleLikeSong() {
+    await toggleLikedSong(userEmail as string, trackID, isSongLiked);
     setIsSongLiked(!isSongLiked);
   }
 
@@ -52,18 +42,14 @@ function ItemCard({ children, title, img, trackID, setPlaybackID }: ICard) {
       <img
         src={img}
         className="w-fulls rounded shadow"
-        alt="Personality Homepage Image"
+        alt="Song Cover Image"
       ></img>
       <h3 className="text-gray-200 font-bold mt-5 text-center">{title}</h3>
       <p className="text-gray-400 font-light mt-2 text-xs text-center">
         {children}
       </p>
-      <button onClick={likeSong} data-testid="like-button">
-        {isSongLiked ? (
-          <FaHeart data-testid="filled-heart" />
-        ) : (
-          <FaRegHeart data-testid="empty-heart" />
-        )}
+      <button onClick={handleLikeSong} data-testid="like-button">
+        {isSongLiked ? <FaHeart /> : <FaRegHeart />}
       </button>
     </div>
   );

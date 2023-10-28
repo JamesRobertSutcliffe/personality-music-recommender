@@ -1,41 +1,39 @@
-import { getLikedSongs, addLikedSong, removeLikedSong } from "../../../db/dal/likedSong";
+import {
+  getLikedSongs,
+  addLikedSong,
+  removeLikedSong,
+} from "../../../db/dal/likedSong";
+import {
+  getEmailFromRequest,
+  getBodyFromRequest,
+  constructErrorResponse,
+  constructSuccessResponse,
+} from "../helpers";
 
 export async function GET(request: Request): Promise<Response> {
-  const url = new URL(request.url);
-  const params = new URLSearchParams(url.search);
-  const email = params.get("user_email");
+  const email = getEmailFromRequest(request);
 
   if (!email) {
-    return new Response(JSON.stringify({ error: "email is required" }), {
-      status: 400,
-    });
+    return constructErrorResponse("email is required", 400);
   }
 
   const likedSongs = await getLikedSongs(email);
-
-  return new Response(JSON.stringify( {...likedSongs} ));
+  return new Response(JSON.stringify(likedSongs));
 }
 
 export async function POST(request: Request): Promise<Response> {
-  const body = await request.json();
-  const { user_email, track_id } = body;
+  const { user_email, track_id } = await getBodyFromRequest(request);
 
-  const likedSong = await addLikedSong(user_email, track_id);
-
-  return new Response(
-    JSON.stringify({ message: `Track ${track_id} liked succesffully` }),
-    { status: 201 }
-  );
+  await addLikedSong(user_email, track_id);
+  return constructSuccessResponse(`Track ${track_id} liked successfully`, 201);
 }
 
 export async function DELETE(request: Request): Promise<Response> {
-  const body = await request.json();
-  const { user_email, track_id } = body;
+  const { user_email, track_id } = await getBodyFromRequest(request);
 
-  const removedSong = await removeLikedSong(user_email, track_id);
-
-  return new Response(
-    JSON.stringify({ message: `Track ${body.track_id} deleted succesffully` }),
-    { status: 200 }
+  await removeLikedSong(user_email, track_id);
+  return constructSuccessResponse(
+    `Track ${track_id} deleted successfully`,
+    200
   );
 }

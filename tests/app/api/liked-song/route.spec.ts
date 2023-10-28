@@ -21,7 +21,7 @@ describe("Liked Songs API", () => {
       const request = { url: `http://localhost/api/liked-songs?user_email=${mockUser.email}` };
 
       const trackId = "asdf";
-      const likedSong = await addLikedSong(mockUser.email as string, trackId);
+      await addLikedSong(mockUser.email as string, trackId);
 
       const result = await GET(request as any);
       const data = JSON.parse(await result.text());
@@ -45,15 +45,12 @@ describe("Liked Songs API", () => {
       };
 
       const previousLikedSongs = await getLikedSongs(newUser.email as string)
-      const previousSongCount = previousLikedSongs.rowCount;
 
       const result = await POST(request as any);
       expect(result.status).toBe(201)
 
       const currentLikedSongs = await getLikedSongs(newUser.email as string)
-      const currentSongCount = currentLikedSongs.rowCount;
-      expect(currentSongCount).toBe(previousSongCount + 1);
-
+      expect(currentLikedSongs.rowCount).toBe(previousLikedSongs.rowCount + 1);
     });
   });
 
@@ -71,15 +68,13 @@ describe("Liked Songs API", () => {
       expect(POSTresult.status).toBe(201)
 
       const previousLikedSongs = await getLikedSongs(newUser.email as string)
-      const previousSongCount = previousLikedSongs.rowCount;
-      expect(previousSongCount).toBe(1);
+      expect(previousLikedSongs.rowCount).toBe(1);
 
       const DELETEresult = await DELETE(request as any);
       expect(DELETEresult.status).toBe(200)
 
       const currentLikedSongs = await getLikedSongs(newUser.email as string)
-      const currentSongCount = currentLikedSongs.rowCount;
-      expect(currentSongCount).toBe(0);
+      expect(currentLikedSongs.rowCount).toBe(0);
     })
   })
 });
