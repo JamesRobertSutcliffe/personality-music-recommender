@@ -3,7 +3,7 @@ import React, { useState, useContext, useEffect } from "react";
 import { FaHeart, FaRegHeart } from "react-icons/fa";
 import { EmailContext } from "../../context/EmailContext";
 import {
-  fetchLikedSongsForUser,
+  isSongLikedInDb,
   toggleLikedSong,
 } from "../../utils/likedSongsHelpers";
 
@@ -21,7 +21,7 @@ function ItemCard({ children, title, img, trackID, setPlaybackID }: ICard) {
 
   useEffect(() => {
     async function checkIfSongIsLiked() {
-      const isLiked = await fetchLikedSongsForUser(userEmail as string, trackID);
+      const isLiked = await isSongLikedInDb(userEmail as string, trackID);
       setIsSongLiked(isLiked);
     }
 

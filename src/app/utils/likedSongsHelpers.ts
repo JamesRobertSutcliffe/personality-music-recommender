@@ -1,7 +1,12 @@
-async function fetchLikedSongsForUser(userEmail: string, trackID: string): Promise<boolean> {
+async function fetchLikedSongs(userEmail: string) {
     const response = await fetch(`/api/liked-song?user_email=${userEmail}`);
     const data = await response.json();
-    return data.rows.some((song: {track_id: string}) => song.track_id === trackID);
+    return data.rows;
+}
+
+async function isSongLikedInDb(userEmail: string, trackID: string): Promise<boolean> {
+    const likedSongs = await fetchLikedSongs(userEmail);
+    return likedSongs.some((song: {track_id: string}) => song.track_id === trackID)
 }
 
 async function toggleLikedSong(userEmail: string, trackID: string, isCurrentlyLiked: boolean): Promise<void> {
@@ -17,6 +22,7 @@ async function toggleLikedSong(userEmail: string, trackID: string, isCurrentlyLi
 }
 
 export {
-    fetchLikedSongsForUser,
+    fetchLikedSongs,
+    isSongLikedInDb,
     toggleLikedSong
 };
