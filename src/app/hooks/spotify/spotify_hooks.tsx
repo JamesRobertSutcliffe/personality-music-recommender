@@ -29,6 +29,14 @@ export async function fetchRecommendedTracks(token: string, personalityType: str
   return fetchedTracks;
 }
 
+export async function fetchLikedSongs(token: string, userEmail: string) {
+  const response = await fetch(`/api/liked-song?user_email=${userEmail}`);
+  const data = await response.json();
+  const songIds = data.rows.map((song: { track_id: string }) => song.track_id);
+
+  const songPromises = songIds.map((songId: string) => fetchTrackData(token, songId));
+  const fetchedSongs = await Promise.all(songPromises);
+  return fetchedSongs;
 }
 
 export async function fetchTrackData(token: string, trackId: string) {
