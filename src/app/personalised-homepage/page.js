@@ -10,7 +10,8 @@ import {
   fetchUserPlaylists,
   fetchUserTracks,
   fetchRecommendedTracks,
-  fetchAlbumData
+  fetchAlbumData,
+  fetchLikedSongs
 } from "../hooks/spotify/spotify_hooks";
 import SpotifyPlayer from "react-spotify-web-playback";
 import ItemCard from "../components/personalised-homepage-components/ItemCard";
@@ -31,6 +32,7 @@ function PersonalisedHomepage() {
   const [albums, setAlbums] = useState([]);
   const [tracks, setTracks] = useState([]);
   const [playlists, setPlaylists] = useState([]);
+  const [likedSongs, setLikedSongs] = useState([]);
   const [userTopArray, setUserTopArray] = useState([]);
   const [userProduct, setUserProduct] = useState();
   const [dbUser, setDbUser] = useState();
@@ -51,12 +53,14 @@ function PersonalisedHomepage() {
       setUserImage(profile.images?.[1]?.url);
       setUserProduct(profile.product);
 
+
       const user = await fetch(`/api/user?email=${profile.email}`).then(
         (res) => res.json()
       );
       setDbUser(user);
 
       await fetchRecommendedTracks(accessToken, user.personality_type).then(setTracks);
+      await fetchLikedSongs(accessToken, profile.email).then(setLikedSongs);
       setProfileLoad(true);
     };
 
