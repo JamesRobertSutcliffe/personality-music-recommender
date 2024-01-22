@@ -101,7 +101,7 @@ function PersonalisedHomepage() {
     setPlayback(true);
   }
 
-  function setPlaylistId(e) {
+  function setLikedSongId(e) {
     setPlayTrack(e.currentTarget.id);
     setPlayerType("playlist");
     setPlayback(true);
@@ -117,7 +117,6 @@ function PersonalisedHomepage() {
   const setProfilePic =
     userImage === undefined ? "https://i.ibb.co/WHfbS7L/logo.png" : userImage;
 
-  console.log(tracks, albums)
 
   return (
     <Bg>
@@ -139,10 +138,11 @@ function PersonalisedHomepage() {
                     trackID={track.id}
                     title={track.name}
                     img={track.album.images[1].url}
+                    artistName={track.artists[0].name}
                     setPlaybackID={setTrackId}
-                  >
-                    {track.artists[0].name}
-                  </ItemCard>
+                    likedSongs={likedSongs}
+                    setLikedSongs={setLikedSongs}
+                  />
                 );
               })}
             </ItemRow>
@@ -154,25 +154,27 @@ function PersonalisedHomepage() {
                     trackID={album.id}
                     title={album.name}
                     img={album.images[1].url}
+                    artistName={album.artists[0].name}
                     setPlaybackID={setAlbumId}
-                  >
-                    {album.artists[0].name}
-                  </ItemCard>
+                    likedSongs={likedSongs}
+                    setLikedSongs={setLikedSongs}
+                  />
                 );
               })}
             </ItemRow>
-            <ItemRow title="Recommended Playlists">
-              {playlists?.map((playlist, index) => {
+            <ItemRow title="Liked Songs">
+              {likedSongs?.map((song, index) => {
                 return (
                   <ItemCard
-                    key={`playlist${index}`}
-                    trackID={playlist.id}
-                    title={playlist.name}
-                    img={playlist.images[0].url}
-                    setPlaybackID={setPlaylistId}
-                  >
-                    {playlist.description}
-                  </ItemCard>
+                    key={`song${index}`}
+                    trackID={song.id}
+                    title={song.name}
+                    img={song.img ?? song.album.images[1].url}
+                    artistName={song.artists[0].name}
+                    setPlaybackID={setLikedSongId}
+                    likedSongs={likedSongs}
+                    setLikedSongs={setLikedSongs}
+                  />
                 );
               })}
             </ItemRow>

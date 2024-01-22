@@ -1,8 +1,3 @@
-async function isSongLikedInDb(userEmail: string, trackID: string): Promise<boolean> {
-  const likedSongs = await fetchLikedSongs(userEmail);
-  return likedSongs.some((song: {track_id: string}) => song.track_id === trackID)
-}
-
 async function toggleLikedSong(userEmail: string, trackID: string, isCurrentlyLiked: boolean): Promise<void> {
   const method = isCurrentlyLiked ? "DELETE" : "POST";
 
@@ -16,6 +11,5 @@ async function toggleLikedSong(userEmail: string, trackID: string, isCurrentlyLi
 }
 
 export {
-  isSongLikedInDb,
   toggleLikedSong
 };
