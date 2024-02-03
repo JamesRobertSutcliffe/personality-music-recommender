@@ -18,6 +18,7 @@ import ItemCard from "../components/personalised-homepage-components/ItemCard";
 import Loading from "../components/personalised-homepage-components/Loading";
 import { redirect } from "next/navigation";
 import { EmailContext } from "../context/EmailContext";
+import Paragraph from "../components/Paragraph";
 
 function PersonalisedHomepage() {
   // Access token obtained from URL window
@@ -163,8 +164,8 @@ function PersonalisedHomepage() {
               })}
             </ItemRow>
             <ItemRow title="Liked Songs">
-              {likedSongs?.map((song, index) => {
-                return (
+              {likedSongs.length ? likedSongs.map((song, index) => {
+                return (song.error?.status !== 404 &&
                   <ItemCard
                     key={`song${index}`}
                     trackID={song.id}
@@ -176,7 +177,7 @@ function PersonalisedHomepage() {
                     setLikedSongs={setLikedSongs}
                   />
                 );
-              })}
+              }) : <Paragraph>You haven&apos;t liked any songs yet.</Paragraph>}
             </ItemRow>
           </ItemRowContainer>
         </ItemContainer>
