@@ -10,13 +10,15 @@ import {
   fetchUserPlaylists,
   fetchUserTracks,
   fetchRecommendedTracks,
-  fetchAlbumData
+  fetchAlbumData,
+  fetchLikedSongs
 } from "../hooks/spotify/spotify_hooks";
 import SpotifyPlayer from "react-spotify-web-playback";
 import ItemCard from "../components/personalised-homepage-components/ItemCard";
 import Loading from "../components/personalised-homepage-components/Loading";
 import { redirect } from "next/navigation";
 import { EmailContext } from "../context/EmailContext";
+import Paragraph from "../components/Paragraph";
 
 function PersonalisedHomepage() {
   // Access token obtained from URL window
@@ -31,6 +33,7 @@ function PersonalisedHomepage() {
   const [albums, setAlbums] = useState([]);
   const [tracks, setTracks] = useState([]);
   const [playlists, setPlaylists] = useState([]);
+  const [likedSongs, setLikedSongs] = useState([]);
   const [userTopArray, setUserTopArray] = useState([]);
   const [userProduct, setUserProduct] = useState();
   const [dbUser, setDbUser] = useState();
@@ -51,12 +54,14 @@ function PersonalisedHomepage() {
       setUserImage(profile.images?.[1]?.url);
       setUserProduct(profile.product);
 
+
       const user = await fetch(`/api/user?email=${profile.email}`).then(
         (res) => res.json()
       );
       setDbUser(user);
 
       await fetchRecommendedTracks(accessToken, user.personality_type).then(setTracks);
+      await fetchLikedSongs(accessToken, profile.email).then(setLikedSongs);
       setProfileLoad(true);
     };
 
@@ -97,7 +102,7 @@ function PersonalisedHomepage() {
     setPlayback(true);
   }
 
-  function setPlaylistId(e) {
+  function setLikedSongId(e) {
     setPlayTrack(e.currentTarget.id);
     setPlayerType("playlist");
     setPlayback(true);
@@ -113,7 +118,6 @@ function PersonalisedHomepage() {
   const setProfilePic =
     userImage === undefined ? "https://i.ibb.co/WHfbS7L/logo.png" : userImage;
 
-  console.log(tracks, albums)
 
   return (
     <Bg>
@@ -135,10 +139,11 @@ function PersonalisedHomepage() {
                     trackID={track.id}
                     title={track.name}
                     img={track.album.images[1].url}
+                    artistName={track.artists[0].name}
                     setPlaybackID={setTrackId}
-                  >
-                    {track.artists[0].name}
-                  </ItemCard>
+                    likedSongs={likedSongs}
+                    setLikedSongs={setLikedSongs}
+                  />
                 );
               })}
             </ItemRow>
@@ -150,27 +155,29 @@ function PersonalisedHomepage() {
                     trackID={album.id}
                     title={album.name}
                     img={album.images[1].url}
+                    artistName={album.artists[0].name}
                     setPlaybackID={setAlbumId}
-                  >
-                    {album.artists[0].name}
-                  </ItemCard>
+                    likedSongs={likedSongs}
+                    setLikedSongs={setLikedSongs}
+                  />
                 );
               })}
             </ItemRow>
-            <ItemRow title="Recommended Playlists">
-              {playlists?.map((playlist, index) => {
-                return (
+            <ItemRow title="Liked Songs">
+              {likedSongs.length ? likedSongs.map((song, index) => {
+                return (song.error?.status !== 404 &&
                   <ItemCard
-                    key={`playlist${index}`}
-                    trackID={playlist.id}
-                    title={playlist.name}
-                    img={playlist.images[0].url}
-                    setPlaybackID={setPlaylistId}
-                  >
-                    {playlist.description}
-                  </ItemCard>
+                    key={`song${index}`}
+                    trackID={song.id}
+                    title={song.name}
+                    img={song.img ?? song.album.images[1].url}
+                    artistName={song.artists[0].name}
+                    setPlaybackID={setLikedSongId}
+                    likedSongs={likedSongs}
+                    setLikedSongs={setLikedSongs}
+                  />
                 );
-              })}
+              }) : <Paragraph>You haven&apos;t liked any songs yet.</Paragraph>}
             </ItemRow>
           </ItemRowContainer>
         </ItemContainer>

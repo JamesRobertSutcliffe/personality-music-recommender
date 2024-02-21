@@ -3,35 +3,56 @@ import React, { useState, useContext, useEffect } from "react";
 import { FaHeart, FaRegHeart } from "react-icons/fa";
 import { EmailContext } from "../../context/EmailContext";
 import {
-  fetchLikedSongsForUser,
   toggleLikedSong,
 } from "../../utils/likedSongsHelpers";
 
+interface ILikedSong {
+  title: string,
+  img: string,
+  id: string
+}
+
 interface ICard {
-  children?: any;
+  children?: React.ReactNode;
   title: string;
   img: string;
   trackID: string;
+  artistName: string;
   setPlaybackID: (e: React.MouseEvent<HTMLDivElement>) => void;
+  likedSongs: ILikedSong[],
+  setLikedSongs: React.Dispatch<React.SetStateAction<ILikedSong[]>>
 }
 
-function ItemCard({ children, title, img, trackID, setPlaybackID }: ICard) {
+function ItemCard({ children, title, img, trackID, artistName, setPlaybackID, likedSongs, setLikedSongs }: ICard) {
   const [isSongLiked, setIsSongLiked] = useState(false);
   const { userEmail } = useContext(EmailContext);
 
   useEffect(() => {
     async function checkIfSongIsLiked() {
-      const isLiked = await fetchLikedSongsForUser(userEmail as string, trackID);
+      const isLiked = likedSongs.some(song => song.id === trackID);
       setIsSongLiked(isLiked);
     }
 
     checkIfSongIsLiked();
-  }, [userEmail, trackID]);
+  }, [trackID, likedSongs]);
 
-  async function handleLikeSong() {
-    await toggleLikedSong(userEmail as string, trackID, isSongLiked);
+  const updateLikedSongs = () => {
+    setLikedSongs(prevLikedSongs => {
+      return isSongLiked
+        ? prevLikedSongs.filter(song => song.id !== trackID)
+        : [...prevLikedSongs, { id: trackID, title, img, artists: [{ name: artistName }] }];
+    });
+  };
+
+  const toggleLikeStatus = async () => {
     setIsSongLiked(!isSongLiked);
-  }
+    await toggleLikedSong(userEmail as string, trackID, isSongLiked);
+  };
+
+  const handleLikeSong = () => {
+    updateLikedSongs();
+    toggleLikeStatus();
+  };
 
   return (
     <div
@@ -46,7 +67,7 @@ function ItemCard({ children, title, img, trackID, setPlaybackID }: ICard) {
       ></img>
       <h3 className="text-gray-200 font-bold mt-5 text-center">{title}</h3>
       <p className="text-gray-400 font-light mt-2 text-xs text-center">
-        {children}
+        {artistName}
       </p>
       <button onClick={handleLikeSong} data-testid="like-button">
         {isSongLiked ? <FaHeart /> : <FaRegHeart />}
