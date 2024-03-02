@@ -35,7 +35,7 @@ function ItemCard({ children, title, img, trackID, previewID, artistName, userPr
 
   useEffect(() => {
     async function checkIfSongIsLiked() {
-      const isLiked = likedSongs.some(song => song.id === trackID);
+      const isLiked = likedSongs?.some(song => song.id === trackID);
       setIsSongLiked(isLiked);
     }
 
