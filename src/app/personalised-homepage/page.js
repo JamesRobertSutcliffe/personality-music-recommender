@@ -18,7 +18,9 @@ import ItemCard from "../components/personalised-homepage-components/ItemCard";
 import Loading from "../components/personalised-homepage-components/Loading";
 import { redirect } from "next/navigation";
 import { EmailContext } from "../context/EmailContext";
+import Iframe from "react-iframe";
 import Paragraph from "../components/Paragraph";
+
 
 function PersonalisedHomepage() {
   // Access token obtained from URL window
@@ -40,7 +42,7 @@ function PersonalisedHomepage() {
   const [profileLoad, setProfileLoad] = useState(false);
   const { userEmail, setUserEmail } = useContext(EmailContext);
 
-  // Variables / state used to control playback
+  // Variables / state used to control playback for premium player
   const [playTrack, setPlayTrack] = useState("");
   const [playerType, setPlayerType] = useState("");
   const [playback, setPlayback] = useState(false);
@@ -118,7 +120,6 @@ function PersonalisedHomepage() {
   const setProfilePic =
     userImage === undefined ? "https://i.ibb.co/WHfbS7L/logo.png" : userImage;
 
-
   return (
     <Bg>
       {profileLoad === true ? (
@@ -137,13 +138,18 @@ function PersonalisedHomepage() {
                   <ItemCard
                     key={`song${index}`}
                     trackID={track.id}
+                    previewID={track.preview_url}
                     title={track.name}
                     img={track.album.images[1].url}
-                    artistName={track.artists[0].name}
+                    spotLink={track.external_urls.spotify}
                     setPlaybackID={setTrackId}
+                    userPremium={userProduct}
+                    artistName={track.artists[0].name}
                     likedSongs={likedSongs}
                     setLikedSongs={setLikedSongs}
-                  />
+                  >
+                    {track.artists[0].name}
+                  </ItemCard>
                 );
               })}
             </ItemRow>
@@ -153,13 +159,16 @@ function PersonalisedHomepage() {
                   <ItemCard
                     key={`album${index}`}
                     trackID={album.id}
+                    previewID={album.preview_url}
                     title={album.name}
+                    spotLink={album.external_urls.spotify}
                     img={album.images[1].url}
                     artistName={album.artists[0].name}
                     setPlaybackID={setAlbumId}
-                    likedSongs={likedSongs}
-                    setLikedSongs={setLikedSongs}
-                  />
+                    userPremium={userProduct}
+                  >
+                    {album.artists[0].name}
+                  </ItemCard>
                 );
               })}
             </ItemRow>
@@ -191,6 +200,13 @@ function PersonalisedHomepage() {
             uris={[`spotify:${playerType}:${playTrack}`]}
             play={playback}
           ></SpotifyPlayer>
+        )}
+        {!userPremium() && (
+          <Iframe url={playTrack}
+            width="100%"
+            height="35vh"
+            id=""
+            className="" />
         )}
       </div>
     </Bg>
